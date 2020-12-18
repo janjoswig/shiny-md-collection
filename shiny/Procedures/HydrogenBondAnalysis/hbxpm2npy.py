@@ -15,8 +15,8 @@ import json
 import numpy as np
 
 
-def read_hbxpm(f, /):
-    with open(args.hbm_input) as file_:
+def read_hbxpm(f):
+    with open(f) as file_:
         hb_existence = [
             line.strip(('"\n,'))
             for line in file_
@@ -27,7 +27,7 @@ def read_hbxpm(f, /):
     hb_existence = [x.replace('o', '1') for x in hb_existence]
 
     hb_existence = np.array(
-        [np.array(x, dtype='uint8') for x in hb_existence]
+        [np.array(list(x), dtype=np.uint8) for x in hb_existence]
         ).T
 
     return hb_existence
@@ -98,8 +98,10 @@ if __name__ == "__main__":
         '-d', '--dictionary',
         metavar="filename",
         help=(
-            'mapping used to map hydrogen-bond index identifiers '
-            'to names'
+            'full path and filename with extension (.npy, .json) '
+            'for a mapping used to map hydrogen-bond index identifiers '
+            'to names '
+            '(mapping={"GroupA": [atom_a, atom_b, atom_c, ...], ...})'
             ),
         dest="mapping",
         default=None
@@ -130,30 +132,28 @@ if __name__ == "__main__":
             )
 
     if args.hbm_input is not None:
-        if args.hbm_output is None:
-            args.hbm_output = args.hbm_input.rsplit('.', 1)[0]
 
         hb_existence = read_hbxpm(args.hbm_input)
+
+        if args.hbm_output is None:
+            args.hbm_output = args.hbm_input.rsplit('.', 1)[0]
 
         if args.verboose:
             print(f'Saving {args.hbm_output}.npy')
         np.save(args.hbm_output, hb_existence)
 
     if args.hbn_input is not None:
-        if args.hbn_output is None:
-            args.hbn_output = args.hbn_input.rsplit('.', 1)[0]
-
         try:
-            mapping = np.load(args.d, allow_pickle=True)
+            mapping = np.load(args.mapping, allow_pickle=True)
         except OSError:
             if args.verboose:
-                print(f"Failed to interpret file {args.d} as a pickle")
+                print(f"Failed to interpret file {args.mapping} as a pickle")
 
-            with open(args.d) as fp:
+            with open(args.mapping) as fp:
                 mapping = json.load(fp)
 
         mapping = {
-            atom: group
+            str(atom): group
             for group, atoms in mapping.items()
             for atom in atoms
             }
@@ -167,6 +167,9 @@ if __name__ == "__main__":
             for line in file_:
                 donor, hydrogen, acceptor = line.split()
                 names.append(f"{mapping[donor]}-{mapping[acceptor]}")
+
+        if args.hbn_output is None:
+            args.hbn_output = args.hbn_input.rsplit('.', 1)[0]
 
         if args.verboose:
             print(f'Saving {args.hbn_output}.npy')

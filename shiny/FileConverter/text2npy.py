@@ -19,7 +19,7 @@ DEFAULTS = {
 }
 
 
-def read_file(f, /, v=False, **kwargs):
+def read_file(f, *, v=False, **kwargs):
 
     read_with = None
 
@@ -39,8 +39,11 @@ def read_file(f, /, v=False, **kwargs):
 
         comments = tuple(kwargs.get("comments", DEFAULTS["comments"]))
         usecols = np.array(
-            kwargs.get("usecols", DEFAULTS["usecols"]), dtype=int
+            kwargs.get("usecols", DEFAULTS["usecols"]),
+            ndmin=1,
+            dtype=int
             )
+        min_cols_per_line = np.max(usecols) + 1
         dtype = kwargs.get("dtype", DEFAULTS["dtype"])
         delimiter = kwargs.get("delimiter", None)
 
@@ -57,7 +60,7 @@ def read_file(f, /, v=False, **kwargs):
 
                 line_content = np.asarray(line.split(delimiter), dtype=dtype)
 
-                if len(line_content) == (np.max(usecols) + 1):
+                if len(line_content) == min_cols_per_line:
                     file_content.extend(
                         line_content[usecols]
                         )
@@ -209,14 +212,14 @@ if __name__ == "__main__":
                 print(f"File {f} does not exist.")
             continue
 
-        if args.output is None:
-            out = f.stem
-        else:
-            out = args.output[count]
-
         file_content = read_file(f, v=args.verboose, **read_kwargs)
 
-        if args.verboose:
-            print(f'Saving {out}.npy')
+        if args.output is None:
+            output = fname.rsplit('.', 1)[0]
+        else:
+            output = args.output[count]
 
-        np.save(out, file_content)
+        if args.verboose:
+            print(f'Saving {output}.npy')
+
+        np.save(output, file_content)

@@ -1,0 +1,17 @@
+/* XPM */
+/* This file can be converted to EPS by the GROMACS program xpm2ps */
+/* title:   "Hydrogen Bond Existence Map" */
+/* legend:  "Hydrogen Bonds" */
+/* x-label: "Time (ps)" */
+/* y-label: "Hydrogen Bond Index" */
+/* type:    "Discrete" */
+static char *gromacs_xpm[] = {
+"21 146   2 1",
+"   c #FFFFFF " /* "None" */,
+"o  c #FF0000 " /* "Present" */,
+/* x-axis:  0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 */
+/* y-axis:  0 1 2 3 */
+"       o oooo ooo    ",
+"ooooooooooooooooooooo",
+"             o     oo",
+"ooooooooooooooooooo o"

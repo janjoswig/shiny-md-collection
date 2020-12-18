@@ -1,0 +1,35 @@
+# This file was created Fri Dec 18 10:12:30 2020
+# Created by:
+#                      :-) GROMACS - gmx energy, 2019.1 (-:
+# 
+# Executable:   /usr/bin/gmx
+# Data prefix:  /usr
+# Working dir:  /home/janjoswig/qod/sandbox_mm/Notebooks/conformers/search_demo
+# Command line:
+#   gmx energy -f ener.edr -o pot.xvg
+# gmx energy is part of G R O M A C S:
+#
+# God Rules Over Mankind, Animals, Cosmos and Such
+#
+@    title "GROMACS Energies"
+@    xaxis  label "Time (ps)"
+@    yaxis  label "(kJ/mol)"
+@TYPE xy
+@ view 0.15, 0.15, 0.75, 0.85 
+@ legend on
+@ legend box on
+@ legend loctype view 
+@ legend 0.78, 0.8
+@ legend length 2
+@ s0 legend "Potential"
+    0.000000  3937750.000000
+    1.000000  3866356.000000
+    2.000000  3746288.250000
+    3.000000  3410380.750000
+    4.000000  2687203.500000
+    5.000000  1865057.125000
+    6.000000  1142001.750000
+    7.000000  628404.187500
+    8.000000  384197.656250
+    9.000000  368794.125000
+   10.000000
