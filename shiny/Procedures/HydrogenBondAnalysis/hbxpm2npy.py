@@ -1,6 +1,6 @@
 """Convert GROMACS "gmx hbond" output to numpy-files
 
-Rreads a XPixMap matrix file (.xpm) created by GROMACS
+Reads a XPixMap matrix file (.xpm) created by GROMACS
 "gmx hbond -hbm" (H-bond existence vs. timeframe) and writes the
 content as a matrix to a binary numpy-file (.npy).  Also reads
 an index file (.ndx) created by GROMACS "gmx hbond -hbn"
@@ -42,7 +42,7 @@ if __name__ == "__main__":
             ),
         usage=(
             "%(prog)s -hbm hbm.xpm [-ohbm hbm.npy] -hbn hbn.ndx "
-            "[-ohbn hbn.npy] -d mapping.npy [-sel Protein]"
+            "[-ohbn hbn.npy] -d mapping.json [-sel Protein]"
             ),
         epilog="https://github.com/janjoswig/shiny-md-collection"
         )
@@ -128,7 +128,7 @@ if __name__ == "__main__":
 
     if args.hbn_input is not None and args.mapping is None:
         parser.error(
-            'Input option -hbn (--HBONS_NDX) requieres -d (--DICTIONARY)'
+            'Input option -hbn (--hbond_ndx) requieres -d (--dictionary)'
             )
 
     if args.hbm_input is not None:
