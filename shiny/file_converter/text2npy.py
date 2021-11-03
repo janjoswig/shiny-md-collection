@@ -183,7 +183,7 @@ if __name__ == "__main__":
         default=None
         )
     parser.add_argument(
-        '-v', '--verboose',
+        '-v', '--verbose',
         action='store_true',
         help="be chatty",
         default=False
@@ -208,18 +208,18 @@ if __name__ == "__main__":
         f = pathlib.Path(fname)
 
         if not f.is_file():
-            if args.verboose:
+            if args.verbose:
                 print(f"File {f} does not exist.")
             continue
 
-        file_content = read_file(f, v=args.verboose, **read_kwargs)
+        file_content = read_file(f, v=args.verbose, **read_kwargs)
 
         if args.output is None:
             output = fname.rsplit('.', 1)[0]
         else:
             output = args.output[count]
 
-        if args.verboose:
+        if args.verbose:
             print(f'Saving {output}.npy')
 
         np.save(output, file_content)
