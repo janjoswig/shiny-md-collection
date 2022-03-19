@@ -9,5 +9,6 @@ The content is devided into a few rough categories:
   - Simulation Setup :
   - Procedures :
     - Hydrogen-bond analysis
+    - Mutual information analysis
   - Plotting :
   - HPC :
